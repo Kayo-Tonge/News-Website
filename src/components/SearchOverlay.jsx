@@ -1,10 +1,12 @@
 
 import { useState } from 'react'
 import useNews from "./news-website/src/hooks/useNews.jsx"
+import LoadMoreButton from "./news-website/src/components/LoadMoreButton.jsx"
 
 export default function SearchOverlay(props) {
     const { articles, isLoading } = useNews()
     const [searchQuery, setSearchQuery] = useState("")
+    const [visibleArticles,setVisibleArticles] = useState(15)
 
     //this function's job is to capture the user's input in the search section of the website
     function handleSearchQuery(event) {
@@ -29,7 +31,7 @@ export default function SearchOverlay(props) {
     //As the user types, the search results is going to update and show articles as the user is typing. The title of each article matches the user's input 
     function renderSearchResults() {
         return (
-            articles.filter((article) => {
+            articles.slice(0,visibleArticles).filter((article) => {
                 return article.title.includes(searchQuery.toLowerCase())
             }).map(article => {
                 return (
@@ -40,6 +42,10 @@ export default function SearchOverlay(props) {
                 )
             })
         )
+    }
+
+    function handleClickMore (){
+        setVisibleArticles(prevArticles => prevArticles + 15)
     }
 
     //the entire screen overlay is displayed
@@ -63,6 +69,7 @@ export default function SearchOverlay(props) {
                 :
                 renderSearchResults()
             }
+            <LoadMoreButton clickMore={handleClickMore} />
         </div>
     )
 }
