@@ -1,8 +1,8 @@
-const API_KEY = "225510efc9807d94bee36f8823d47c30";
+const API_KEY = import.meta.env.VITE_GNEWS_KEY;
 
-export async function getNews() {
+export async function getNews(category) {
     const response = await fetch(
-        `https://gnews.io/api/v4/top-headlines?category=${category}&apikey=${API_KEY}&?lang:eng`
+        `https://gnews.io/api/v4/top-headlines?category=${category}&apikey=${API_KEY}&lang=en`
     );
 
     const data = await response.json();
@@ -12,4 +12,4 @@ export async function getNews() {
     return data;
 }
 
-getNews()
+

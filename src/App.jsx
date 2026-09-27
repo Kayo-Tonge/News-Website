@@ -1,4 +1,5 @@
-import HomePage from './news-website/src/pages/HomePage.jsx'
+import HomePage from './pages/HomePage.jsx';
+
 
 function App() {
   

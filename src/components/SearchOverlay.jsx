@@ -1,10 +1,10 @@
 
 import { useState } from 'react'
-import useNews from "./news-website/src/hooks/useNews.jsx"
-import LoadMoreButton from "./news-website/src/components/LoadMoreButton.jsx"
+import LoadMoreButton from "./LoadMoreButton.jsx"
 
 export default function SearchOverlay(props) {
-    const { articles, isLoading } = useNews()
+    const articles = props.articles 
+    const isLoading = props.isLoading 
     const [searchQuery, setSearchQuery] = useState("")
     const [visibleArticles,setVisibleArticles] = useState(15)
 
@@ -31,7 +31,7 @@ export default function SearchOverlay(props) {
     //As the user types, the search results is going to update and show articles as the user is typing. The title of each article matches the user's input 
     function renderSearchResults() {
         return (
-            articles.slice(0,visibleArticles).filter((article) => {
+            articles.slice(0,visibleArticles).filter((article) => { // we slice articles from 0 to visibleArticles beause that state will change by an increment of 15, meaning 15 more articles will be added as the user clicks the load more button each time
                 return article.title.includes(searchQuery.toLowerCase())
             }).map(article => {
                 return (
@@ -44,7 +44,7 @@ export default function SearchOverlay(props) {
         )
     }
 
-    function handleClickMore (){
+    function handleClickMore (){ //15 new articles will be added each time the user clicks the load more button
         setVisibleArticles(prevArticles => prevArticles + 15)
     }
 
