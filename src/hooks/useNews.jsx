@@ -7,7 +7,8 @@ export default function useNews(){
     const [category,setCategory] = useState("general")
 
     useEffect (() => { //We need useEffect so we can track the api changes based on the category the user chooses. React only re renders once the category changes, indicating that the api data is being fetched and updated appropriately
-        getNews(category).then(data => setArticles(data)).finally(() => setIsLoading(false))
+        getNews(category).then(data => setArticles(data)).catch(error => console.error("Error: " + error))
+    .finally(() => setIsLoading(false))
     }, [category])
 
     return {articles, isLoading,category,setCategory}
