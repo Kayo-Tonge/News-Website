@@ -22,11 +22,19 @@ export default function HomePage(){
         setCategory(newCategory)
     }
 
+    function closeOverlayClick(){
+        setSearchOpen(false)
+    }
+
+    function closeSidebarClick(){
+        setSidebarOpen(false)
+    }
+
     return (
         <>
             <Header overlayClick={overlayClick} sidebarClick={sidebarClick}/>
-            {sidebarOpen ? <Sidebar onCategoryChange={onCategoryChange}/> : null}
-            {searchOpen ? <SearchOverlay articles={articles} isLoading={isLoading} /> : null}
+            {sidebarOpen ? <Sidebar onCategoryChange={onCategoryChange} closeSidebarClick={closeSidebarClick}/> : null}
+            {searchOpen ? <SearchOverlay articles={articles} isLoading={isLoading} closeOverlayClick={closeOverlayClick}/> : null}
         </>
     )
 

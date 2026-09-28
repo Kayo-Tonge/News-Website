@@ -1,6 +1,7 @@
 
 import { useState } from 'react'
 import LoadMoreButton from "./LoadMoreButton.jsx"
+import CloseButton from './CloseButton.jsx'
 
 export default function SearchOverlay(props) {
     const articles = props.articles 
@@ -21,7 +22,7 @@ export default function SearchOverlay(props) {
                 <a href={article.url} key={article.id}>
                     <article>
                         <h4>{article.title}</h4>
-                        <img src={article.img} />
+                        <img src={article.image} />
                     </article>
                 </a>
             )
@@ -32,12 +33,12 @@ export default function SearchOverlay(props) {
     function renderSearchResults() {
         return (
             articles.slice(0,visibleArticles).filter((article) => { // we slice articles from 0 to visibleArticles beause that state will change by an increment of 15, meaning 15 more articles will be added as the user clicks the load more button each time
-                return article.title.includes(searchQuery.toLowerCase())
+                return article.title.toLowerCase().includes(searchQuery.toLowerCase())
             }).map(article => {
                 return (
                     <div key={article.id}>
                         <article>{article.title}</article>
-                        <img src={article.img} />
+                        <img src={article.image} />
                     </div>
                 )
             })
@@ -57,9 +58,7 @@ export default function SearchOverlay(props) {
                 onChange={handleSearchQuery} //the user's input as they are typing is being captured
             /> 
 
-            <button onClick={props.onClick} > 
-                <i class="fa-solid fa-x"></i>
-            </button> /
+            <CloseButton onClick={props.closeOverlayClick} />
             
             {/*if the user's input(searchQuery) is empty, we show the 10 latest news below the search bar. If it's not, we render the results based on the user's input*/ searchQuery.length === 0 ?
                 <section className="latest-news">
