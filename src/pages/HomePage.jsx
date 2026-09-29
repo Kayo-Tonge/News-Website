@@ -3,12 +3,16 @@ import Sidebar from '../components/Sidebar.jsx'
 import SearchOverlay from '../components/SearchOverlay.jsx'
 import useNews from "../hooks/useNews.jsx"
 import { useState } from "react"
+import { useNavigate } from 'react-router-dom';
+
 
 
 export default function HomePage(){
     const [searchOpen, setSearchOpen] = useState(false)
     const[sidebarOpen,setSidebarOpen] = useState(false)
-    const {articles,isLoading,category,setCategory} = useNews()
+    const {articles,isLoading,category,setCategory,showError} = useNews()
+
+    const navigate = useNavigate();
     
     function overlayClick (){ //when the user clicks the search button, the searchOpen value turns to true which triggers the screen overlay
         setSearchOpen(true)
@@ -19,7 +23,8 @@ export default function HomePage(){
     }
 
     function onCategoryChange(newCategory){ //we set the category state to a new value. we retrieve the category from useNews, which is responsible for retrieving the gNews api data and re-rendered based on the category the user chooses
-        setCategory(newCategory)
+        //setCategory(newCategory) remember to use this
+        navigate(`/category/${newCategory}`)
     }
 
     function closeOverlayClick(){
@@ -31,8 +36,10 @@ export default function HomePage(){
     }
 
     return (
-        <>
+        <> 
+           
             <Header overlayClick={overlayClick} sidebarClick={sidebarClick}/>
+            {showError ? <div>Something went wrong...</div> : null}
             {sidebarOpen ? <Sidebar onCategoryChange={onCategoryChange} closeSidebarClick={closeSidebarClick}/> : null}
             {searchOpen ? <SearchOverlay articles={articles} isLoading={isLoading} closeOverlayClick={closeOverlayClick}/> : null}
         </>
