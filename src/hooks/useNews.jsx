@@ -16,8 +16,9 @@ export default function useNews(){
     .finally(() => setIsLoading(false))
     
     }, [category])
-
+    
     return {articles, isLoading, category, setCategory, showError}
              
     
 }
+

@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function HomePage(){
     const [searchOpen, setSearchOpen] = useState(false)
     const[sidebarOpen,setSidebarOpen] = useState(false)
-    const {articles,isLoading,category,setCategory,showError} = useNews()
+    const {articles,isLoading,showError} = useNews()
 
     const navigate = useNavigate();
     
