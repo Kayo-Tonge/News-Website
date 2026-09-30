@@ -4,15 +4,23 @@ import { useParams } from "react-router-dom";
 
 export default function Category (){
     const { category } = useParams();
-    const { articles } = useNews()
+    const { articles, isLoading, showError } = useNews(category)
+
+    if (isLoading){
+        return <div>Loading...</div>
+    }
+
+    if (showError){
+        return <div>Something went wrong...</div>
+    }
+
     const categoryArticles = articles.map(article => {
-        return <main>
-            <h1 className="category-header">{category}</h1>
+        return <main key={article.url}> 
             <a href={article.url}>
-                <img src={article.image}/>
+                <img src={article.image} alt={article.title}/>
                 <h3 className="article-title">{article.title}</h3>
                 <p className="article-description">{article.description}</p>
-                <p classNAme="source">{article.source.name}</p>
+                <p className="source">{article.source.name}</p>
             </a>
             
         </main>
@@ -20,6 +28,7 @@ export default function Category (){
     });
     return (
         <>
+            <h1 className="category-header">{category}</h1>
             {categoryArticles}
         </>
         
