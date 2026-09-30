@@ -68,7 +68,7 @@ export default function SearchOverlay(props) {
                 :
                 renderSearchResults()
             }
-            <LoadMoreButton clickMore={handleClickMore} />
+            {articles.length > 10 ? <LoadMoreButton clickMore={handleClickMore} /> : null}
         </div>
     )
 }

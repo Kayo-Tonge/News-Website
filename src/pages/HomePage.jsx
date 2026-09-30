@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function HomePage(){
     const [searchOpen, setSearchOpen] = useState(false)
     const[sidebarOpen,setSidebarOpen] = useState(false)
-    const {articles,isLoading,showError} = useNews(category)
+    const {articles,isLoading,} = useNews()
 
     const navigate = useNavigate();
     
@@ -39,7 +39,7 @@ export default function HomePage(){
         <> 
            
             <Header overlayClick={overlayClick} sidebarClick={sidebarClick}/>
-            {showError ? <div>Something went wrong...</div> : null}
+            
             {sidebarOpen ? <Sidebar onCategoryChange={onCategoryChange} closeSidebarClick={closeSidebarClick}/> : null}
             {searchOpen ? <SearchOverlay articles={articles} isLoading={isLoading} closeOverlayClick={closeOverlayClick}/> : null}
         </>
