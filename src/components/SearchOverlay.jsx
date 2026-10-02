@@ -3,15 +3,15 @@ import { useState,useEffect } from 'react'
 import LoadMoreButton from "./LoadMoreButton.jsx"
 import CloseButton from './CloseButton.jsx'
 import { getSearchResults } from "../services/Api/news.js"
-
+import usePagination from "../hooks/usePagination.jsx"
 
 export default function SearchOverlay(props) {
     const articles = props.articles 
     const isLoading = props.isLoading 
-    const [query, setQuery] = useState("")
     const [searchResults, setSearchResults] = useState([])
-    const [visibleArticles,setVisibleArticles] = useState(10)
-    const [page,setPage] = useState(1)
+    const [query, setQuery] = useState("")
+    const [page,setPage] = useState(1) //we created our own states for page and setPage because we SearchOverlay's pages are independent from Category.jsx
+    const {handleClickMore, visibleArticles} = usePagination(setPage)
 
     
 
@@ -51,7 +51,7 @@ export default function SearchOverlay(props) {
         })
     }
 
-    //As the user types, the search results is going to update and show articles as the user is typing. The title of each article matches the user's input 
+        //As the user types, the search results is going to update and show articles as the user is typing. The title of each article matches the user's input 
     function renderSearchResults() {
         return (
             searchResults.slice(0,visibleArticles).map(article => {
@@ -65,11 +65,8 @@ export default function SearchOverlay(props) {
         )
     }
 
-    function handleClickMore (){ //10 new articles will be added each time the user clicks the load more button
-        setVisibleArticles(prevArticles => prevArticles + 10)
-        setPage(prevPage => prevPage + 1)
-    }
 
+    
     //the entire screen overlay is displayed
     return (
         <div className="overlay-container">

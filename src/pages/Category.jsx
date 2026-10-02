@@ -1,11 +1,15 @@
 import useNews from "../hooks/useNews.jsx"
 import { useParams } from "react-router-dom";
 import Header from "../components/Header.jsx"
+import usePagination from "../hooks/usePagination.jsx";
+import LoadMoreButton from "../components/LoadMoreButton.jsx"
 
 
 export default function Category (){
     const { category } = useParams();
-    const { articles, isLoading, showError } = useNews(category)
+    const { articles, isLoading, showError,setPage } = useNews(category)
+    const { handleClickMore } = usePagination(setPage)
+
 
     if (isLoading){
         return <div>Loading...</div>
@@ -32,6 +36,7 @@ export default function Category (){
             <Header />
             <h1 className="category-header">{category}</h1>
             {categoryArticles}
+            {(articles.length >= 10 && category) ? <LoadMoreButton clickMore={handleClickMore} /> : null}
         </>
         
     )

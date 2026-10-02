@@ -1,8 +1,8 @@
 const API_KEY = import.meta.env.VITE_GNEWS_KEY;
 
-export async function getNews(category) {
+export async function getNews(category, page) {
     
-        const response = await fetch(`https://gnews.io/api/v4/top-headlines?category=${category}&apikey=${API_KEY}&lang=en`);
+        const response = await fetch(`https://gnews.io/api/v4/top-headlines?category=${category}&apikey=${API_KEY}&page=${page}&lang=en`);
         if (!response.ok) {
             throw new Error(`HTTP error: ${response.status}`);
         }
