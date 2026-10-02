@@ -1,5 +1,6 @@
 import useNews from "../hooks/useNews.jsx"
 import { useParams } from "react-router-dom";
+import Header from "../components/Header.jsx"
 
 
 export default function Category (){
@@ -27,7 +28,8 @@ export default function Category (){
         
     });
     return (
-        <>
+        <>  
+            <Header />
             <h1 className="category-header">{category}</h1>
             {categoryArticles}
         </>

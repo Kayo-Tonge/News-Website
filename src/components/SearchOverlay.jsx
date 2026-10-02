@@ -16,18 +16,23 @@ export default function SearchOverlay(props) {
     
 
      useEffect(() => { 
-        const timeout = setTimeout(() => { // this is called debouncing. the API request is delayed so it only runs after the user stops typing for 1 second
+        if (query !== ""){
+            const timeout = setTimeout(() => { // this is called debouncing. the API request is delayed so it only runs after the user stops typing for 1 second
             getSearchResults(query,page).then(data => setSearchResults(prevResults => [...prevResults,...data])).catch(error => {
             console.error("Error: " + error)        
                 })
         },1000)
         return () => clearTimeout(timeout)
+        }  
+        
     }, [query,page])
 
     //this function's job is to capture the user's input in the search section of the website
     function handleSearchQuery(event) {
         const currentInput = event.currentTarget.value
         setQuery(currentInput)
+        setPage(1)           // reset to page 1 for the new search
+        setSearchResults([])
     }
 
 
@@ -51,17 +56,17 @@ export default function SearchOverlay(props) {
         return (
             searchResults.slice(0,visibleArticles).map(article => {
                 return (
-                    <div key={article.id}>
+                    <a key={article.id} href={article.url}>
                         <article>{article.title}</article>
                         <img src={article.image} />
-                    </div>
+                    </a>
                 )
             })
         )
     }
 
-    function handleClickMore (){ //15 new articles will be added each time the user clicks the load more button
-        setVisibleArticles(prevArticles => prevArticles + 15)
+    function handleClickMore (){ //10 new articles will be added each time the user clicks the load more button
+        setVisibleArticles(prevArticles => prevArticles + 10)
         setPage(prevPage => prevPage + 1)
     }
 
@@ -84,7 +89,7 @@ export default function SearchOverlay(props) {
                 :
                 renderSearchResults()
             }
-            {(searchResults.length > 10 && query)? <LoadMoreButton clickMore={handleClickMore} /> : null}
+            {(searchResults.length >= 10 && query) ? <LoadMoreButton clickMore={handleClickMore} /> : null}
         </div>
     )
 }
