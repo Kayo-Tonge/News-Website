@@ -7,7 +7,7 @@ import LoadMoreButton from "../components/LoadMoreButton.jsx"
 
 export default function Category (){
     const { category } = useParams();
-    const { articles, isLoading, showError,setPage } = useNews(category)
+    const { articles, isLoading, showError, setPage } = useNews(category)
     const { handleClickMore } = usePagination(setPage)
 
 
