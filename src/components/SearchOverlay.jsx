@@ -4,6 +4,7 @@ import LoadMoreButton from "./LoadMoreButton.jsx"
 import CloseButton from './CloseButton.jsx'
 import { getSearchResults } from "../services/Api/news.js"
 import usePagination from "../hooks/usePagination.jsx"
+import useDuplicateChecker from '../hooks/useDuplicateChecker.jsx'
 
 export default function SearchOverlay(props) {
     const articles = props.articles 
@@ -12,6 +13,8 @@ export default function SearchOverlay(props) {
     const [query, setQuery] = useState("")
     const [page,setPage] = useState(1) //we created our own states for page and setPage because we SearchOverlay's pages are independent from Category.jsx
     const {handleClickMore, visibleArticles} = usePagination(setPage)
+    const { hasNotDuplicateId } = useDuplicateChecker()
+    
 
     
 
@@ -39,7 +42,9 @@ export default function SearchOverlay(props) {
    
     //renderArticles takes the first 10 articles and display the title, image, and a link to each article
     function renderArticles() {
-        return articles.slice(0, 10).map((article) => {
+        return articles.slice(0, 10).filter(article => {
+            return hasNotDuplicateId(article)
+        }).map((article) => {
             return (
                 <a href={article.url} key={article.id}>
                     <article>
@@ -54,7 +59,9 @@ export default function SearchOverlay(props) {
         //As the user types, the search results is going to update and show articles as the user is typing. The title of each article matches the user's input 
     function renderSearchResults() {
         return (
-            searchResults.slice(0,visibleArticles).map(article => {
+            searchResults.slice(0,visibleArticles).filter(article => {
+            return hasNotDuplicateId(article)
+        }).map(article => {
                 return (
                     <a key={article.id} href={article.url}>
                         <article>{article.title}</article>

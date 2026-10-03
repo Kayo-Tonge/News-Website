@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Header.jsx"
 import usePagination from "../hooks/usePagination.jsx";
 import LoadMoreButton from "../components/LoadMoreButton.jsx"
+import useDuplicateChecker from "../hooks/useDuplicateChecker.jsx"
 
 
 export default function Category (){
     const { category } = useParams();
     const { articles, isLoading, showError, setPage } = useNews(category)
     const { handleClickMore } = usePagination(setPage)
+    const { hasNotDuplicateId } = useDuplicateChecker()
 
 
     if (isLoading){
@@ -19,17 +21,8 @@ export default function Category (){
         return <div>Something went wrong...</div>
     }
 
-    const ids = new Set() //Set is a special js object that keeps unique elments. In this case, I wanted every article to be unique, so I keep track of the ids of each article and made sure no articles share any identical ids
     const categoryArticles = articles.filter(article => {
-        function hasNotDuplicateId(article){
-            
-            if (ids.has(article.id)){
-                return false
-            }
-            ids.add(article.id)
-            return true
-        }
-        return hasNotDuplicateId(article)
+       return hasNotDuplicateId(article)
     }).map(article => {
         return <main key={article.id}> 
             <a href={article.url}>
