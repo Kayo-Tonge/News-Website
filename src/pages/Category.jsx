@@ -19,8 +19,19 @@ export default function Category (){
         return <div>Something went wrong...</div>
     }
 
-    const categoryArticles = articles.map(article => {
-        return <main key={article.url}> 
+    const ids = new Set() //Set is a special js object that keeps unique elments. In this case, I wanted every article to be unique, so I keep track of the ids of each article and made sure no articles share any identical ids
+    const categoryArticles = articles.filter(article => {
+        function hasNotDuplicateId(article){
+            
+            if (ids.has(article.id)){
+                return false
+            }
+            ids.add(article.id)
+            return true
+        }
+        return hasNotDuplicateId(article)
+    }).map(article => {
+        return <main key={article.id}> 
             <a href={article.url}>
                 <img src={article.image} alt={article.title}/>
                 <h3 className="article-title">{article.title}</h3>
