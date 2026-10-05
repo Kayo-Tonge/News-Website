@@ -40,7 +40,7 @@ export default function Category (props){
     return (
         <>  
             <Header overlayClick={props.overlayClick} sidebarClick={props.sidebarClick}/>
-             {props.sidebarOpen ? <Sidebar closeSidebarClick={props.closeSidebarClick}/> : null}
+            {props.sidebarOpen ? <Sidebar closeSidebarClick={props.closeSidebarClick}/> : null}
             {props.searchOpen ? <SearchOverlay articles={articles} isLoading={isLoading} closeOverlayClick={props.closeOverlayClick}/> : null}
             <h1 className="category-header">{category}</h1>
             {categoryArticles}
