@@ -90,7 +90,7 @@ export default function SearchOverlay(props) {
             
             {/*if the user's input(searchQuery) is empty, we show the 10 latest news below the search bar. If it's not, we render the results based on the user's input*/ query.length === 0 ?
                 <section className="latest-news">
-                    <h3>Latest News</h3>
+                    <h1>{props.category ?  props.category : "Latest News"}</h1>
                     {isLoading ? <p>Loading...</p> : renderArticles()}
                 </section>
                 :

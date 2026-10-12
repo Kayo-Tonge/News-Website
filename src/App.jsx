@@ -14,9 +14,9 @@ function App() {
         setSearchOpen(true)
     }
 
-    function sidebarClick (){  //when the user clicks the hamburger button, the sidebarOpen value turns to true which triggers the sidebar menu
+    function sidebarClick (){  //when the user clicks the hamburger button, the sidebarOpen value turns to true which triggers the sidebar menu, if false we hide the menu
        console.log("sidebarClick in App")
-        setSidebarOpen(true)
+        setSidebarOpen(prevSidebar => !prevSidebar)
     }
 
     function closeOverlayClick(){

@@ -63,7 +63,7 @@ export default function Category (props){
                 {(articles.length >= 10 && category && !props.searchOpen) ? <LoadMoreButton clickMore={handleClickMore} /> : null}
 
             </> : 
-                <SearchOverlay articles={articles} isLoading={isLoading} closeOverlayClick={props.closeOverlayClick} query={props.query} setQuery={props.setQuery} onClose={handleClose}/> 
+                <SearchOverlay articles={articles} isLoading={isLoading} closeOverlayClick={props.closeOverlayClick} query={props.query} setQuery={props.setQuery} onClose={handleClose} category={category}/> 
             }
             
             
