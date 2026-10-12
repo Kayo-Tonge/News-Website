@@ -6,8 +6,17 @@ export default function Header (props){
     return (
         <>
         <header>
-            <button className="hamburger-icon" onClick={props.sidebarClick}>
-                <i className="fa-solid fa-bars"  style={{ color: "rgb(207, 213, 222)" }}></i>
+            <button
+                className="hamburger-icon"
+                onClick={() => {
+                    console.log("hamburger clicked")
+                    props.sidebarClick()
+                }}
+            >
+                <i
+                    className="fa-solid fa-bars"
+                    style={{ color: "rgb(207, 213, 222)" }}
+                ></i>
             </button>
             <Link to="/">
                 <img src="/logo.png" alt="logo" />

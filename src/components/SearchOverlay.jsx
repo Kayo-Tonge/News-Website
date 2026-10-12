@@ -1,5 +1,6 @@
 
 import { useState,useEffect } from 'react'
+
 import LoadMoreButton from "./LoadMoreButton.jsx"
 import CloseButton from './CloseButton.jsx'
 import { getSearchResults } from "../services/Api/news.js"
@@ -9,8 +10,9 @@ import useDuplicateChecker from '../hooks/useDuplicateChecker.jsx'
 export default function SearchOverlay(props) {
     const articles = props.articles 
     const isLoading = props.isLoading 
+    const query = props.query
+    const setQuery = props.setQuery
     const [searchResults, setSearchResults] = useState([])
-    const [query, setQuery] = useState("")
     const [page,setPage] = useState(1) //we created our own states for page and setPage because we SearchOverlay's pages are independent from Category.jsx
     const {handleClickMore, visibleArticles} = usePagination(setPage)
     const { hasNotDuplicateId } = useDuplicateChecker()
@@ -77,13 +79,14 @@ export default function SearchOverlay(props) {
     //the entire screen overlay is displayed
     return (
         <div className="overlay-container">
+            
             <input //this is the search bar
                 type="text"
                 placeholder="Search"
                 onChange={handleSearchQuery} //the user's input as they are typing is being captured
             /> 
 
-            <CloseButton onClick={props.closeOverlayClick} />
+            <CloseButton onClick={props.closeOverlayClick} onClose={props.onClose}/>
             
             {/*if the user's input(searchQuery) is empty, we show the 10 latest news below the search bar. If it's not, we render the results based on the user's input*/ query.length === 0 ?
                 <section className="latest-news">
@@ -94,6 +97,7 @@ export default function SearchOverlay(props) {
                 renderSearchResults()
             }
             {(searchResults.length >= 10 && query) ? <LoadMoreButton clickMore={handleClickMore} /> : null}
+
         </div>
     )
 }

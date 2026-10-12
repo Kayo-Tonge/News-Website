@@ -20,8 +20,8 @@ export default function HomePage(props){
            
             <Header overlayClick={props.overlayClick} sidebarClick={props.sidebarClick}/>
             
-            {props.sidebarOpen ? <Sidebar closeSidebarClick={props.closeSidebarClick}/> : null}
-            {props.searchOpen ? <SearchOverlay articles={articles} isLoading={isLoading} closeOverlayClick={props.closeOverlayClick}/> : null}
+            {props.sidebarOpen ? <Sidebar closeSidebarClick={props.closeSidebarClick} setQuery={props.setQuery}/> : null}
+            {props.searchOpen ? <SearchOverlay articles={articles} isLoading={isLoading} closeOverlayClick={props.closeOverlayClick} query={props.query} setQuery={props.setQuery}/> : null}
         </>
     )
 

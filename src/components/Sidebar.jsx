@@ -6,6 +6,7 @@ export default function Sidebar(props) {
         //setCategory(newCategory) remember to use this
     function onCategoryChange(newCategory) {
         props.closeSidebarClick();
+        props.setQuery("")
         navigate(`/category/${newCategory}`); 
         
     }
