@@ -14,6 +14,8 @@ export default function Category (props){
     console.log("sidebarOpen:", props.sidebarOpen)
     const { category } = useParams();
     const { articles, isLoading, showError, setPage } = useNews(category)
+    
+    
     const { handleClickMore } = usePagination(setPage)
     const { hasNotDuplicateId } = useDuplicateChecker()
     const navigate = useNavigate();
@@ -51,20 +53,22 @@ export default function Category (props){
     });
     console.log(props.searchOpen, props.query)
     console.log("Category sidebarOpen:", props.sidebarOpen);
+    console.log("Search open:", props.searchOpen);
     
     return (
         <>  
             <Header overlayClick={props.overlayClick} sidebarClick={props.sidebarClick}/>
+            {props.searchOpen && <SearchOverlay isLoading={props.isLoading} latestArticles={props.latestArticles} closeOverlayClick={props.closeOverlayClick} query={props.query} setQuery={props.setQuery} onClose={handleClose} category={category}/> }
             {props.sidebarOpen ? <Sidebar closeSidebarClick={props.closeSidebarClick} setQuery={props.setQuery}/> : null}
-            {!props.searchOpen ? 
-            <>
+            
+            
                 <h1 className="category-header">{(props.searchOpen && props.query !== "") ? null : category}</h1>
                 {categoryArticles}
-                {(articles.length >= 10 && category && !props.searchOpen) ? <LoadMoreButton clickMore={handleClickMore} /> : null}
+                {(articles.length >= 10 && category ) ? <LoadMoreButton clickMore={handleClickMore} /> : null}
 
-            </> : 
-                <SearchOverlay articles={articles} isLoading={isLoading} closeOverlayClick={props.closeOverlayClick} query={props.query} setQuery={props.setQuery} onClose={handleClose} category={category}/> 
-            }
+            
+               
+            
             
             
             

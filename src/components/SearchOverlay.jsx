@@ -8,7 +8,8 @@ import usePagination from "../hooks/usePagination.jsx"
 import useDuplicateChecker from '../hooks/useDuplicateChecker.jsx'
 
 export default function SearchOverlay(props) {
-    const articles = props.articles 
+    const latestArticles = props.latestArticles 
+    console.log("Props received by SearchOverlay:", props.latestArticles);
     const isLoading = props.isLoading 
     const query = props.query
     const setQuery = props.setQuery
@@ -17,7 +18,8 @@ export default function SearchOverlay(props) {
     const {handleClickMore, visibleArticles} = usePagination(setPage)
     const { hasNotDuplicateId } = useDuplicateChecker()
     
-
+    console.log("Latest articles:", latestArticles);
+    console.log("Latest articles count:", latestArticles?.length);
     
 
      useEffect(() => { 
@@ -44,7 +46,7 @@ export default function SearchOverlay(props) {
    
     //renderArticles takes the first 10 articles and display the title, image, and a link to each article
     function renderArticles() {
-        return articles.slice(0, 10).filter(article => {
+        return latestArticles.slice(0, 10).filter(article => {
             return hasNotDuplicateId(article)
         }).map((article) => {
             return (
@@ -90,7 +92,7 @@ export default function SearchOverlay(props) {
             
             {/*if the user's input(searchQuery) is empty, we show the 10 latest news below the search bar. If it's not, we render the results based on the user's input*/ query.length === 0 ?
                 <section className="latest-news">
-                    <h1>{props.category ?  props.category : "Latest News"}</h1>
+                    <h3>Latest News</h3>
                     {isLoading ? <p>Loading...</p> : renderArticles()}
                 </section>
                 :

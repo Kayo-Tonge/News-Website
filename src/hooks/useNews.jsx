@@ -15,9 +15,9 @@ export default function useNews(category){
         console.log("current:", category)
         console.log("page:", page)
 
-        const prevCategoryChanged = prevCategoryRef.current !== category
-        prevCategoryChanged ? 
-        getNews(category,page).then(data => setArticles(data)) : getNews(category,page).then(data => setArticles(prevArticles => [...prevArticles, ...data])).catch(error => { //prevArticles => [...prevArticles, ...data] means we are taking the articles array from the api and adding data to those articles as we click the load more button. The api free plan only gives 10 articles at a time, so we need a state(like articles) to add more data to it
+        const prevCategoryChanged = prevCategoryRef.current !== category;
+        (prevCategoryChanged ? 
+        getNews(category,page).then(data => setArticles(data)) : getNews(category,page).then(data => setArticles(prevArticles => [...prevArticles, ...data]))).catch(error => { //prevArticles => [...prevArticles, ...data] means we are taking the articles array from the api and adding data to those articles as we click the load more button. The api free plan only gives 10 articles at a time, so we need a state(like articles) to add more data to it
             console.error("Error: " + error)
             setShowError(true)
 

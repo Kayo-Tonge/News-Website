@@ -2,15 +2,18 @@ import HomePage from './pages/HomePage.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Category from './pages/Category.jsx';
 import { useState } from 'react'
+import useNews from "./hooks/useNews.jsx"
+
 
 
 function App() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [sidebarOpen,setSidebarOpen] = useState(false)  
   const [query,setQuery] = useState("")
-
+  const {articles: latestArticles, isLoading} = useNews()
 
   function overlayClick (){ //when the user clicks the search button, the searchOpen value turns to true which triggers the screen overlay
+        console.log("Search icon clicked")
         setSearchOpen(true)
     }
 
@@ -39,7 +42,9 @@ function App() {
             closeSidebarClick={closeSidebarClick}
             closeOverlayClick={closeOverlayClick}
             query={query}
-            setQuery={setQuery}/>} />
+            setQuery={setQuery}
+            latestArticles={latestArticles}
+            isLoading={isLoading}/>} />
           <Route path="/category/:category"  element={<Category 
           overlayClick={overlayClick} 
           sidebarClick={sidebarClick} 
@@ -49,6 +54,8 @@ function App() {
           closeSidebarClick={closeSidebarClick}
           query={query}
           setQuery={setQuery}
+          latestArticles={latestArticles}
+          isLoading={isLoading}
           />} />
         </Routes>
           

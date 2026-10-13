@@ -1,13 +1,12 @@
 import Header from '../components/Header.jsx'
 import Sidebar from '../components/Sidebar.jsx'
 import SearchOverlay from '../components/SearchOverlay.jsx'
-import useNews from "../hooks/useNews.jsx"
 
 
 
 export default function HomePage(props){
     
-    const {articles,isLoading} = useNews()
+   
 
     
     
@@ -21,7 +20,7 @@ export default function HomePage(props){
             <Header overlayClick={props.overlayClick} sidebarClick={props.sidebarClick}/>
             
             {props.sidebarOpen ? <Sidebar closeSidebarClick={props.closeSidebarClick} setQuery={props.setQuery}/> : null}
-            {props.searchOpen ? <SearchOverlay articles={articles} isLoading={isLoading} closeOverlayClick={props.closeOverlayClick} query={props.query} setQuery={props.setQuery}/> : null}
+            {props.searchOpen ? <SearchOverlay latestArticles={props.latestArticles} isLoading={props.isLoading} closeOverlayClick={props.closeOverlayClick} query={props.query} setQuery={props.setQuery}/> : null}
         </>
     )
 
