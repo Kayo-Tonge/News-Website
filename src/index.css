@@ -1,3 +1,11 @@
+*{
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   background-color: #F1E4D3;
   height: 100vh;
@@ -12,4 +20,79 @@ header {
 header img {
   width: 100%;
   height: 100%;
+}
+
+.overlay-container {
+  background-color: white;
+  z-index: 999;
+  position: fixed;
+ inset: 0; 
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+  overscroll-behavior: contain; 
+}
+
+.search-overlay-container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 720px;          /* the widest the content should ever get */
+  margin-inline: auto;       /* equal space left and right as the screen grows */
+  padding-inline: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "close"
+    "input"
+    "results";
+  row-gap: 16px;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  padding-top: calc(48px + env(safe-area-inset-top));
+}
+
+/* Make sure nothing inside can push past the container */
+.search-overlay-container *,
+.search-overlay-container *::before,
+.search-overlay-container *::after {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.search-overlay-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Long words/URLs shouldn't break the layout */
+.search-overlay-container {
+  overflow-wrap: anywhere;
+}
+
+
+.search-overlay-container  input {
+  padding: 13px 13px 15px;
+  grid-area: input;
+}
+
+.search-close-btn {
+  all: unset;
+  grid-area: close;
+  justify-self: end;   /* right-align the X within its row */
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.search-close-btn:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+
+.search-results {
+  grid-area: results;
+  min-width: 0;   /* lets long titles/images shrink instead of stretching the grid column */
 }

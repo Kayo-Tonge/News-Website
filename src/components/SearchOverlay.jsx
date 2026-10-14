@@ -1,6 +1,6 @@
 
 import { useState,useEffect } from 'react'
-
+import { createPortal } from 'react-dom'
 import LoadMoreButton from "./LoadMoreButton.jsx"
 import CloseButton from './CloseButton.jsx'
 import { getSearchResults } from "../services/Api/news.js"
@@ -79,28 +79,33 @@ export default function SearchOverlay(props) {
 
     
     //the entire screen overlay is displayed
-    return (
+    return createPortal(
         <div className="overlay-container">
+            <div className="search-overlay-container">
             
-            <input //this is the search bar
-                type="text"
-                placeholder="Search"
-                onChange={handleSearchQuery} //the user's input as they are typing is being captured
-            /> 
+                <input //this is the search bar
+                    type="text"
+                    placeholder="Search"
+                    onChange={handleSearchQuery} //the user's input as they are typing is being captured
+                /> 
 
-            <CloseButton onClick={props.closeOverlayClick} onClose={props.onClose}/>
-            
-            {/*if the user's input(searchQuery) is empty, we show the 10 latest news below the search bar. If it's not, we render the results based on the user's input*/ query.length === 0 ?
-                <section className="latest-news">
-                    <h3>Latest News</h3>
-                    {isLoading ? <p>Loading...</p> : renderArticles()}
-                </section>
-                :
-                renderSearchResults()
-            }
-            {(searchResults.length >= 10 && query) ? <LoadMoreButton clickMore={handleClickMore} /> : null}
+                <CloseButton  className="search-close-btn" onClick={props.closeOverlayClick} onClose={props.onClose}/>
+                
+                <div className="search-results">
+                {/*if the user's input(searchQuery) is empty, we show the 10 latest news below the search bar. If it's not, we render the results based on the user's input*/ query.length === 0 ?
+                    <section className="latest-news">
+                        <h3>Latest News</h3>
+                        {isLoading ? <p>Loading...</p> : renderArticles()}
+                    </section>
+                    :
+                    renderSearchResults()
+                }
+                {(searchResults.length >= 10 && query) ? <LoadMoreButton clickMore={handleClickMore} /> : null}
+                </div>
+            </div>
 
-        </div>
+        </div>,
+        document.body
     )
 }
 

@@ -6,7 +6,7 @@ import SearchOverlay from '../components/SearchOverlay.jsx'
 import usePagination from "../hooks/usePagination.jsx";
 import LoadMoreButton from "../components/LoadMoreButton.jsx"
 import useDuplicateChecker from "../hooks/useDuplicateChecker.jsx"
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 
 export default function Category (props){
@@ -18,11 +18,10 @@ export default function Category (props){
     
     const { handleClickMore } = usePagination(setPage)
     const { hasNotDuplicateId } = useDuplicateChecker()
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     function handleClose() {
     props.closeOverlayClick();
-    navigate("/");
     }
     console.log("Category:", {
     isLoading,
