@@ -9,8 +9,6 @@ import useDuplicateChecker from "../hooks/useDuplicateChecker.jsx"
 
 
 export default function Category (props){
-    console.log("Category rendered");
-    console.log("sidebarOpen:", props.sidebarOpen)
     const { category } = useParams();
     const { articles, isLoading, showError, setPage } = useNews(category)
     
@@ -23,11 +21,7 @@ export default function Category (props){
     props.closeOverlayClick();
     
     }
-    console.log("Category:", {
-    isLoading,
-    searchOpen: props.searchOpen,
-    query: props.query
-    })
+   
     if (isLoading){
         return <div>Loading...</div>
     }
@@ -50,9 +44,7 @@ export default function Category (props){
         </main>
         
     });
-    console.log(props.searchOpen, props.query)
-    console.log("Category sidebarOpen:", props.sidebarOpen);
-    console.log("Search open:", props.searchOpen);
+    
     
     return (
         <>  
