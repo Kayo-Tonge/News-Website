@@ -66,6 +66,7 @@ export default function SearchOverlay(props) {
             searchResults.slice(0,visibleArticles).filter(article => {
             return hasNotDuplicateId(article)
         }).map(article => {
+            console.log(article.title, article.image);
                 return (
                     <a key={article.id} href={article.url}>
                         <article>{article.title}</article>

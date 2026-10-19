@@ -10,7 +10,8 @@ function App() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [sidebarOpen,setSidebarOpen] = useState(false)  
   const [query,setQuery] = useState("")
-  const {articles: latestArticles, isLoading} = useNews()
+  const {articles: latestArticles, isLoading} = useNews("general")
+  const [activeIndex, setActiveIndex] = useState(0);
 
   function overlayClick (){ //when the user clicks the search button, the searchOpen value turns to true which triggers the screen overlay
         console.log("Search icon clicked")
@@ -44,7 +45,10 @@ function App() {
             query={query}
             setQuery={setQuery}
             latestArticles={latestArticles}
-            isLoading={isLoading}/>} />
+            isLoading={isLoading}
+            activeIndex={activeIndex} 
+            setActiveIndex={setActiveIndex}
+            />} />
           <Route path="/category/:category"  element={<Category 
           overlayClick={overlayClick} 
           sidebarClick={sidebarClick} 

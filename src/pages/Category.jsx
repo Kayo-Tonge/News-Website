@@ -11,7 +11,10 @@ import useDuplicateChecker from "../hooks/useDuplicateChecker.jsx"
 export default function Category (props){
     const { category } = useParams();
     const { articles, isLoading, showError, setPage } = useNews(category)
-    
+    console.log("Category:", category);
+console.log("Loading:", isLoading);
+console.log("Error:", showError);
+console.log("Articles:", articles.length);
     
     const { handleClickMore } = usePagination(setPage)
     const { hasNotDuplicateId } = useDuplicateChecker()
