@@ -3,7 +3,7 @@ import { useState,useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import LoadMoreButton from "./LoadMoreButton.jsx"
 import CloseButton from './CloseButton.jsx'
-import { getSearchResults } from "../services/Api/news.js"
+import { getSearchCached } from "../services/Api/news.js"
 import usePagination from "../hooks/usePagination.jsx"
 import useDuplicateChecker from '../hooks/useDuplicateChecker.jsx'
 
@@ -22,17 +22,28 @@ export default function SearchOverlay(props) {
     console.log("Latest articles count:", latestArticles?.length);
     
 
-     useEffect(() => { 
-        if (query !== ""){
-            const timeout = setTimeout(() => { // this is called debouncing. the API request is delayed so it only runs after the user stops typing for 1 second
-            getSearchResults(query,page).then(data => setSearchResults(prevResults => [...prevResults,...data])).catch(error => {
-            console.error("Error: " + error)        
-                })
-        },1000)
-        return () => clearTimeout(timeout)
-        }  
-        
-    }, [query,page])
+     useEffect(() => {
+    const q = query.trim()
+    if (q.length < 2) return
+
+    let ignore = false
+
+    const timeout = setTimeout(() => {
+        getSearchCached(q, page)
+            .then(data => {
+                if (ignore) return
+                setSearchResults(prev => (page === 1 ? data : [...prev, ...data]))
+            })
+            .catch(error => {
+                if (!ignore) console.error("Error: " + error)
+            })
+    }, 1000)
+
+    return () => {
+        ignore = true
+        clearTimeout(timeout)
+    }
+}, [query, page])
 
     //this function's job is to capture the user's input in the search section of the website
     function handleSearchQuery(event) {
@@ -88,6 +99,7 @@ export default function SearchOverlay(props) {
                     type="text"
                     placeholder="Search"
                     onChange={handleSearchQuery} //the user's input as they are typing is being captured
+                    value={query}
                 /> 
 
                 <CloseButton  className="search-close-btn" onClick={props.closeOverlayClick} onClose={props.onClose}/>

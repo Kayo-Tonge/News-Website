@@ -1,30 +1,31 @@
 import { Link } from "react-router-dom";
 
-
-
-export default function Header (props){
+export default function Header(props) {
     return (
-        <>
-        <header>
+        <header className="site-header">
             <button
-                className="hamburger-icon"
-                onClick={() => {
-                    console.log("hamburger clicked")
-                    props.sidebarClick()
-                }}
+                className="icon-btn icon-left"
+                onClick={props.sidebarClick}
+                aria-label={props.sidebarOpen ? "Close menu" : "Open menu"}
+                aria-expanded={props.sidebarOpen}
             >
                 <i
-                    className="fa-solid fa-bars"
-                    style={{ color: "rgb(207, 213, 222)" }}
+                    className={props.sidebarOpen ? "fa-solid fa-xmark" : "fa-solid fa-bars"}
+                    aria-hidden="true"
                 ></i>
             </button>
-            <Link to="/">
-                <img src="/logo.png" alt="logo" />
+
+            <Link to="/" className="logo">
+                <img src="/logo.png" alt="NewsHub" />
             </Link>
-            <button className="search-button" onClick={props.overlayClick}>
-            <i className="fa-solid fa-magnifying-glass"></i>
+
+            <button
+                className="icon-btn icon-right"
+                onClick={props.overlayClick}
+                aria-label="Search"
+            >
+                <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
             </button>
         </header>
-        </>
-    )
+    );
 }
