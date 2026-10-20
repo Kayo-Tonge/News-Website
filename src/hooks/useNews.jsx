@@ -1,35 +1,70 @@
-import { useState,useEffect,useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { getNews } from "../services/Api/news.js"
 
-export default function useNews(category, enabled = true){
-    const [articles,setArticles] = useState([])
-    const [isLoading,setIsLoading] = useState(true)
-    const [showError,setShowError] = useState(false)
-    const [page, setPage] = useState(1)
-    const prevCategoryRef = useRef(category)
-    //we created prevCategoryRef because we need to keep track of our previous category before it changed after re-rendering that is caused by the user click a different category
-    //We track this so we can know which category we current have, which one we are changing to, and not onyl re-route to the new one, but also fetching data (calling useEffect) for the articles related to that category
+const CACHE_MS = 30 * 60 * 1000   // 30 minutes
+const inFlight = new Map()         // requests currently running, shared across effect re-runs
 
-    useEffect (() => { //We need useEffect so we can track the api changes based on the category the user chooses. React only re renders once the category changes, indicating that the api data is being fetched and updated appropriately
-        
-        if (!enabled) return;
-        console.log("Fetching category:", category, "page:", page);
-        const prevCategoryChanged = prevCategoryRef.current !== category;
-        (prevCategoryChanged ? 
-        getNews(category,page).then(data => setArticles(data)) : getNews(category,page).then(data => setArticles(prevArticles => [...prevArticles, ...data]))).catch(error => { //prevArticles => [...prevArticles, ...data] means we are taking the articles array from the api and adding data to those articles as we click the load more button. The api free plan only gives 10 articles at a time, so we need a state(like articles) to add more data to it
-            console.error("Error: " + error)
-            setShowError(true)
+function getNewsCached(category, page) {
+    const key = `news:${category}:${page}`
 
+    // 1. fresh cache: no network call
+    try {
+        const raw = localStorage.getItem(key)
+        if (raw) {
+            const { data, time } = JSON.parse(raw)
+            if (Date.now() - time < CACHE_MS) return Promise.resolve(data)
+        }
+    } catch { /* ignore bad cache */ }
+
+    // 2. same request already running: reuse it instead of sending another
+    if (inFlight.has(key)) return inFlight.get(key)
+
+    // 3. real request, saved only if it succeeds
+    const request = getNews(category, page)
+        .then(data => {
+            try {
+                localStorage.setItem(key, JSON.stringify({ data, time: Date.now() }))
+            } catch { /* storage full, ignore */ }
+            return data
         })
-    .finally(() => setIsLoading(false))
-    prevCategoryRef.current = category
-    }, [category,page,enabled])
-    
-    
-    
+        .finally(() => inFlight.delete(key))
 
-    return {articles, isLoading, category, showError, page, setPage}
-             
-    
+    inFlight.set(key, request)
+    return request
 }
 
+export default function useNews(category, enabled = true) {
+    const [articles, setArticles] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [showError, setShowError] = useState(false)
+    const [page, setPage] = useState(1)
+    const prevCategoryRef = useRef(category)
+
+    useEffect(() => {
+        if (!enabled) return
+
+        let ignore = false   // set to true if this effect run gets cleaned up
+
+        // replace on page 1 or when the category changed; append on "load more"
+        const replace = page === 1 || prevCategoryRef.current !== category
+        prevCategoryRef.current = category
+
+        getNewsCached(category, page)
+            .then(data => {
+                if (ignore) return
+                setArticles(prev => (replace ? data : [...prev, ...data]))
+            })
+            .catch(error => {
+                if (ignore) return
+                console.error("Error: " + error)
+                setShowError(true)
+            })
+            .finally(() => {
+                if (!ignore) setIsLoading(false)
+            })
+
+        return () => { ignore = true }
+    }, [category, page, enabled])
+
+    return { articles, isLoading, category, showError, page, setPage }
+}
