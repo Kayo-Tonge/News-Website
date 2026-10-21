@@ -150,6 +150,8 @@ body {
 
 
 .search-overlay-container  input {
+  border: 1px solid #767676;   /* same color on all four sides */
+  border-radius: 0;            /* keep the square corners */
   padding: 13px 13px 15px;
   grid-area: input;
 }
@@ -562,4 +564,330 @@ main section + section {
 
 .latest-item a:hover .latest-title {
   text-decoration: underline;   /* optional hover cue */
+}
+
+
+.site-footer {
+  background: #000;
+  color: #fff;
+  padding: 40px 16px 32px;
+  margin-top: 40px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.footer-brand {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.footer-blurb {
+  margin: 0 0 32px;
+  color: #bdbdbd;
+  line-height: 1.4;
+}
+
+.footer-heading {
+  margin: 0 0 12px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #bdbdbd;
+}
+
+.footer-nav ul {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;      /* two columns at 375px, like Wired */
+  gap: 12px 16px;
+}
+
+.footer-nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+
+.footer-legal {
+  margin: 0;
+  padding-top: 24px;
+  border-top: 1px solid #333;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #bdbdbd;
+}
+
+@media (min-width: 768px) {
+  .footer-nav ul {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .category-page {
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 32px;
+  }
+
+  /* ---------- masthead: left-aligned with a heavy rule ---------- */
+  .category-page .category-header {
+    text-align: left;
+    font-size: 64px;
+    margin: 40px 0 32px;
+    padding-bottom: 16px;
+    border-bottom: 4px solid #000;
+  }
+
+  /* ---------- grid: 3 columns ---------- */
+  .category-page .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px 32px;
+  }
+
+  /* ---------- cards (articles 2+) ---------- */
+  .category-page .cat-article {
+    margin: 0;
+    padding: 16px 0 0;
+    border-bottom: none;
+    border-top: 2px solid #000;
+  }
+
+  .category-page .cat-article img {
+    aspect-ratio: 3 / 2;          /* much shorter than before */
+    margin-bottom: 14px;
+  }
+
+  .category-page .cat-article .article-title {
+    font-size: 22px;
+    line-height: 1.15;
+    margin: 0 0 10px;
+  }
+
+  .category-page .cat-article .article-description {
+    font-size: 15px;
+    margin: 0 0 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;        /* cut descriptions off after 3 lines */
+    line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ---------- first article: wide feature, image left, text right ---------- */
+  .category-page .cat-article:first-child {
+    grid-column: 1 / -1;          /* spans all 3 columns */
+    padding: 0 0 40px;
+    border-top: none;
+    border-bottom: 1px solid #adacac;
+  }
+
+  .category-page .cat-article:first-child a {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 1fr auto auto auto 1fr;  /* empty top/bottom rows center the text */
+    column-gap: 40px;
+  }
+
+  .category-page .cat-article:first-child img {
+    grid-column: 1;
+    grid-row: 1 / -1;             /* image spans every row on the left */
+    aspect-ratio: 16 / 9;
+    margin: 0;
+  }
+
+  .category-page .cat-article:first-child .article-title {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 44px;
+    line-height: 1.05;
+    margin: 0 0 16px;
+  }
+
+  .category-page .cat-article:first-child .article-description {
+    grid-column: 2;
+    grid-row: 3;
+    font-size: 19px;
+    line-height: 1.4;
+    -webkit-line-clamp: 5;
+     line-clamp: 5;
+    margin: 0 0 16px;
+  }
+
+  .category-page .cat-article:first-child .source {
+    grid-column: 2;
+    grid-row: 4;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  main {
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 32px;
+  }
+
+  /* ---------- front page: 3 columns ---------- */
+  .front-page {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;      /* left | middle (wider) | right */
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "heading heading heading"
+      "list    hero    trending"
+      "list    pair    trending";
+  }
+
+  .heading-wrapper { grid-area: heading; margin-bottom: 8px; }
+  .list            { grid-area: list; }
+  .hero            { grid-area: hero; }
+  .pair            { grid-area: pair; align-self: start; }
+  .trending        { grid-area: trending; }
+
+  /* ---------- left column: small image on the left, text on the right ---------- */
+  .list {
+    display: block;                           /* undo the 2-column grid from 768px */
+    padding-right: 24px;
+    border-right: 1px solid #adacac;
+  }
+
+  .list-item,
+  .list-item:nth-child(even) {
+    padding: 16px 0;
+    border-left: none;
+  }
+
+.list .list-item a {
+  grid-template-columns: 110px 1fr;
+  gap: 14px;
+}
+
+.list .list-item img {
+  grid-column: 1;
+  grid-row: 1;
+  width: 110px;
+}
+
+.list .list-text {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+  .list-title {
+    font-size: 18px;
+  }
+
+  /* ---------- middle column: big story, then two side by side ---------- */
+  .hero {
+    padding: 8px 24px 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(36px, 3.6vw, 52px);
+  }
+
+  .hero-description {
+    font-size: 17px;
+  }
+
+  .pair {
+    margin-inline: 24px;
+  }
+
+  .pair-title {
+    font-size: 24px;
+  }
+
+  /* ---------- right column: trending as a stacked list ---------- */
+  .trending {
+    padding-left: 24px;
+    border-left: 1px solid #adacac;
+  }
+
+  .trending-wrapper {
+    margin-top: 0;
+  }
+
+  .trending-list {
+    display: block;                           /* undo the 5 columns from 768px */
+  }
+
+  .trending-item,
+  .trending-item + .trending-item {
+    padding: 16px 0;
+    border-left: none;
+    border-bottom: 1px solid #adacac;
+  }
+
+  .trending-item .list-title {
+    font-size: 22px;
+  }
+
+  /* ---------- categories: 3 per row ---------- */
+ /* base (mobile) */
+.category-grid {
+  display: grid;
+  gap: 40px;
+  margin-top: 40px;
+  align-items: start;               /* each section is only as tall as its content */
+}
+
+.category-grid > section + section {
+  margin-top: 0;
+}
+
+.category-section {
+  min-width: 0;                     /* lets columns shrink instead of stretching */
+}
+
+.section-label {
+  display: inline-block;
+  vertical-align: bottom;
+  margin: 0;
+  padding: 8px 12px;
+  background: #000;
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.category-lead {
+  display: block;
+}
+
+.category-lead img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.category-title {
+  margin: 0;
+  padding-block: 14px;
+  font-size: 16px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.category-item {
+  border-top: 1px solid #adacac;
+}
+
+.category-item:first-of-type {
+  border-top: none;                 /* no line between the image and the first title */
+}
 }

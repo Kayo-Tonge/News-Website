@@ -5,7 +5,7 @@ import useNews from "../hooks/useNews.jsx"
 import { useEffect, } from "react";
 import useDuplicateChecker from "../hooks/useDuplicateChecker.jsx"
 import CategorySection from '../components/CategorySection.jsx';
-
+import Footer from '../components/Footer.jsx';
 
 export default function HomePage(props){
     
@@ -65,19 +65,17 @@ export default function HomePage(props){
         )
         .slice(0, 4);
 
-    const trendingArticles = (worldArticles ?? [])
+   const trendingArticles = (worldArticles ?? [])
     .filter(article => hasNotDuplicateId(article))
-    .slice(0, 5).map(article => (
-        <article key={article.id} className="list-item">
+    .slice(0, 5)
+    .map(article => (
+        <article key={article.id} className="trending-item">
             <a href={article.url}>
-                <div className="list-text">
-                    <h3 className="list-title">{article.title}</h3>
-                    <p className="source">{article.source.name}</p>
-                </div>
+                <h3 className="list-title">{article.title}</h3>
+                <p className="source">{article.source.name}</p>
             </a>
         </article>
-    ))
-
+    ));
      // ---------- other categories (filtered once, here) ----------
     const unique = (articles) => (articles ?? []).filter(a => hasNotDuplicateId(a));
     const business = unique(businessArticles);
@@ -139,19 +137,25 @@ export default function HomePage(props){
                         );
                     })}
                     </div>
-
-                    <div className="trending-wrapper">
-                        <h2>Trending Stories</h2>
-                    </div>
-                    {trendingArticles}
+                    <aside className="trending">
+                        <div className="trending-wrapper">
+                            <h2>Trending Stories</h2>
+                        </div>
+                        <div className="trending-list">
+                            {trendingArticles}
+                        </div>
+                    </aside>
                 </section>
-                <CategorySection label="Business" articles={business} />
-                <CategorySection label="Technology" articles={technology} />
-                <CategorySection label="Entertainment" articles={entertainment} />
-                <CategorySection label="Sports" articles={sports} />
-                <CategorySection label="Science" articles={science} />
-                <CategorySection label="Health" articles={health} />
+                <div className="category-grid">
+                    <CategorySection label="Business" articles={business} />
+                    <CategorySection label="Technology" articles={technology} />
+                    <CategorySection label="Entertainment" articles={entertainment} />
+                    <CategorySection label="Sports" articles={sports} />
+                    <CategorySection label="Science" articles={science} />
+                    <CategorySection label="Health" articles={health} />
+                </div>
             </main>
+            <Footer />
         </>
     )
 
