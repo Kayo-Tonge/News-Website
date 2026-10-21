@@ -34,7 +34,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter  basename="/News-Website">
         <Routes>
           <Route path="/" element={<HomePage overlayClick={overlayClick}
             sidebarClick={sidebarClick}
