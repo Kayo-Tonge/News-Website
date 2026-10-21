@@ -36,7 +36,7 @@ console.log("Articles:", articles.length);
     const categoryArticles = articles.filter(article => {
        return hasNotDuplicateId(article)
     }).map(article => {
-        return <main key={article.id}> 
+        return <article key={article.id} className="cat-article"> 
             <a href={article.url}>
                 <img src={article.image} alt={article.title}/>
                 <h3 className="article-title">{article.title}</h3>
@@ -44,22 +44,24 @@ console.log("Articles:", articles.length);
                 <p className="source">{article.source.name}</p>
             </a>
             
-        </main>
+        </article>
         
     });
     
     
     return (
         <>  
-            <Header overlayClick={props.overlayClick} sidebarClick={props.sidebarClick}/>
+            <Header overlayClick={props.overlayClick} sidebarClick={props.sidebarClick} sidebarOpen={props.sidebarOpen}/>
             {props.searchOpen && <SearchOverlay isLoading={props.isLoading} latestArticles={props.latestArticles} closeOverlayClick={props.closeOverlayClick} query={props.query} setQuery={props.setQuery} onClose={handleClose} category={category}/> }
             {props.sidebarOpen ? <Sidebar closeSidebarClick={props.closeSidebarClick} setQuery={props.setQuery}/> : null}
             
-            
-                <h1 className="category-header">{(props.searchOpen && props.query !== "") ? null : category}</h1>
-                {categoryArticles}
-                {(articles.length >= 10 && category ) ? <LoadMoreButton clickMore={handleClickMore} /> : null}
-
+                <main className="category-page">
+                    <h1 className="category-header">{(props.searchOpen && props.query !== "") ? null : category}</h1>
+                    <div className="cat-grid">
+                        {categoryArticles}
+                    </div>
+                    {(articles.length >= 10 && category ) ? <LoadMoreButton clickMore={handleClickMore} /> : null}
+                </main>
             
                
             

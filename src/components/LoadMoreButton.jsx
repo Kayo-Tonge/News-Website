@@ -2,6 +2,12 @@
 
 export default function LoadMoreButton (props){
     return (
-        <button onClick={props.clickMore}>Load More</button>
+         <div className="load-more-wrapper">
+            <button 
+                onClick={props.clickMore}
+                type="button"
+                className="load-more-btn"
+            >Load More</button>
+        </div>
     )
 } 

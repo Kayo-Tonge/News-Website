@@ -6,6 +6,15 @@
   --header-h: clamp(56px, 16vw, 90px);   /* scales with the screen, capped at both ends */
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background-color: #F1E4D3;
+  min-height: 100vh;
+}
 .site-header {
   position: relative;
   z-index: 950;                          /* above the sidebar, below the search overlay (999) */
@@ -88,14 +97,7 @@
   outline-offset: -2px;
 }
 
-html, body {
-  overflow-x: hidden;
-}
 
-body {
-  background-color: #F1E4D3;
-  min-height: 100vh;
-}
 
 
 
@@ -342,6 +344,39 @@ main section + section {
   margin-top: 0;
 }
 
+.category-header {
+  text-align: center;
+  text-transform: capitalize;
+  font-size: clamp(28px, 8vw, 48px);
+  margin: 24px 0;
+}
+
+.cat-article {
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #adacac;
+}
+
+.cat-article img {
+  display: block;
+  width: 100%;              /* fills the gutter-to-gutter width, never wider */
+  aspect-ratio: 16 / 9;     /* stops tall portrait images from taking over the screen */
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.cat-article .article-title {
+  font-size: 24px;
+  line-height: 1.1;
+  margin: 0 0 12px;
+}
+
+.cat-article .article-description {
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0 0 12px;
+}
+
 @media (min-width: 768px) {
 
   main {
@@ -383,10 +418,7 @@ main section + section {
     padding: 24px 24px 24px 0;
   }
 
-  .list-item:nth-child(even) {
-    padding: 24px 0 24px 24px;
-    border-left: 1px solid #adacac;   /* vertical divider */
-  }
+
 
   .list-item a {
     grid-template-columns: 1fr 140px; /* text | bigger image */
@@ -428,4 +460,106 @@ main section + section {
     grid-template-columns: repeat(3, 1fr);
     gap: 48px 32px;                   /* row gap | column gap */
   }
+}
+
+.load-more-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-block: 32px;
+}
+
+.load-more-btn {
+  all: unset;                          /* removes the default gray button look; must stay first */
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  padding: 16px 24px;
+  background: #000;
+  color: #fff;
+  border: 2px solid #000;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+
+.load-more-btn:hover {
+  background: transparent;             /* cream page color shows through */
+  color: #000;
+}
+
+.load-more-btn:active {
+  transform: scale(0.98);
+}
+
+.load-more-btn:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 3px;
+}
+
+.search-result {
+  padding-block: 16px;
+  border-bottom: 1px solid #adacac;
+}
+
+.search-result a {
+  display: grid;
+  grid-template-columns: 1fr 96px;     /* title | small image */
+  gap: 16px;
+  align-items: start;
+  color: inherit;                      /* removes the default blue */
+  text-decoration: none;               /* removes the underline */
+}
+
+.search-result a:hover .search-result-title {
+  text-decoration: underline;          /* subtle hover cue */
+}
+
+.search-result-title {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.search-result img {
+  width: 96px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+/* if a result has no image, don't leave an empty column */
+.search-result a:not(:has(img)) {
+  grid-template-columns: 1fr;
+}
+
+.latest-item {
+  padding-block: 20px;
+  border-bottom: 1px solid #adacac;
+}
+
+.latest-item a {
+  display: block;
+  color: inherit;            /* removes the default blue */
+  text-decoration: none;     /* removes the underline */
+}
+
+.latest-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.latest-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;      /* keeps the image big but stops it from getting huge */
+  object-fit: cover;
+}
+
+.latest-item a:hover .latest-title {
+  text-decoration: underline;   /* optional hover cue */
 }

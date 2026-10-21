@@ -61,31 +61,34 @@ export default function SearchOverlay(props) {
             return hasNotDuplicateId(article)
         }).map((article) => {
             return (
-                <a href={article.url} key={article.id}>
-                    <article>
-                        <h4>{article.title}</h4>
-                        <img src={article.image} />
-                    </article>
-                </a>
+                <article key={article.id} className="latest-item">
+                    <a href={article.url} key={article.id}>
+                        <article>
+                            <h4 className="latest-title">{article.title}</h4>
+                            <img src={article.image} />
+                        </article>
+                    </a>
+                </article>
             )
         })
     }
 
-        //As the user types, the search results is going to update and show articles as the user is typing. The title of each article matches the user's input 
+    //As the user types, the search results is going to update and show articles as the user is typing. The title of each article matches the user's input 
     function renderSearchResults() {
         return (
             searchResults.slice(0,visibleArticles).filter(article => {
             return hasNotDuplicateId(article)
         }).map(article => {
-            console.log(article.title, article.image);
-                return (
+            return (
+                <article key={article.id} className="search-result">
                     <a key={article.id} href={article.url}>
                         <article>{article.title}</article>
                         <img src={article.image} />
                     </a>
-                )
-            })
-        )
+                </article>
+            )
+        })
+    )
     }
 
 
