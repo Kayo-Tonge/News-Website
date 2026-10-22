@@ -16,7 +16,7 @@ export default function Header(props) {
             </button>
 
             <Link to="/" className="logo">
-                <img src="/logo.png" alt="NewsHub" />
+                <img src={`${import.meta.env.BASE_URL}logo.png`} alt="NewsHub" />
             </Link>
 
             <button
